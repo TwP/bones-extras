@@ -6,17 +6,22 @@ rescue LoadError
 end
 
 ensure_in_path 'lib'
-require 'bones-extras'
-
 task :default => 'test:run'
 
+Bones.plugin :ann, :gem, :git, :notes, :rdoc
+
 Bones {
-  name  'bones-extras'
-  authors  'Tim Pease'
-  email  'tim.pease@gmail.com'
-  url  'http://github.com/TwP/bones-extras'
-  version  BonesExtras::VERSION
-  ignore_file  '.gitignore'
+  name        'bones-extras'
+  authors     'Tim Pease'
+  email       'tim.pease@gmail.com'
+  url         'http://github.com/TwP/bones-extras'
+  version     '1.0.0'
+  ignore_file '.gitignore'
+
+  depend_on   'bones'
+
+  use_gmail
+  enable_sudo
 }
 
 # EOF

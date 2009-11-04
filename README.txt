@@ -1,32 +1,30 @@
 bones-extras
-    by FIXME (your name)
-    FIXME (url)
+    by Tim Pease
+    http://gemcutter.org/gems/bones-extras
 
 == DESCRIPTION:
 
-FIXME (describe your package)
-
-== FEATURES/PROBLEMS:
-
-* FIXME (list of features or problems)
-
-== SYNOPSIS:
-
-  FIXME (code sample of usage)
+The extras package for Mr Bones provides some handy Rake tasks for running
+Rcov code coverage on your tests, running Rspec tests, running the Zentest
+autotest package, and uploading gems and generated rdoc to RubyForge.
 
 == REQUIREMENTS:
 
-* FIXME (list of requirements)
+The extras package for Mr Bones provides some handy Rake tasks for running
+Rcov code coverage on your tests, running Rspec tests, running the Zentest
+autotest package, and uploading gems and generated rdoc to RubyForge. In order
+to use these Rake tasks, the corresponding gems will need to be installed on
+your system: rcov, rspec, zentest, and rubyforge.
 
 == INSTALL:
 
-* FIXME (sudo gem install, anything else)
+  sudo gem install bones-extras
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2008 FIXME (different license?)
+Copyright (c) 2009
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
