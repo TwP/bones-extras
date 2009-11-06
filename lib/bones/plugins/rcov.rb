@@ -33,6 +33,7 @@ module Bones::Plugins::Rcov
 
   def post_load
     require 'rcov'
+    require 'rcov/rcovtask'
     config = ::Bones.config
     config.exclude << "^#{Regexp.escape(config.rcov.dir)}/"
     have?(:rcov) { true }
