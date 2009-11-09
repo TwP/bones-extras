@@ -1,5 +1,7 @@
 
 module Bones::Plugins::Rubyforge
+  include ::Bones::Helpers
+  extend self
 
   def initialize_rubyforge
     ::Bones.config {
@@ -27,9 +29,8 @@ module Bones::Plugins::Rubyforge
   def post_load
     require 'rubyforge'
     require 'rake/contrib/sshpublisher'
-    config = ::Bones.config
     have?(:rubyforge) { true }
-  rescue LoadError
+  rescue LoadError => err
     have?(:rubyforge) { false }
   end
 
@@ -37,49 +38,43 @@ module Bones::Plugins::Rubyforge
     return unless have? :rubyforge
     config = ::Bones.config
 
-    if have? :gem
-      namespace :gem do
-        desc 'Package and upload to RubyForge'
-        task :release => [:clobber, 'gem'] do |t|
-          v = ENV['VERSION'] or abort 'Must supply VERSION=x.y.z'
-          abort "Versions don't match #{v} vs #{config.version}" if v != config.version
-          pkg = "pkg/#{config.gem._spec.full_name}"
+    namespace :rubyforge do
+      desc 'Package gem and upload to RubyForge'
+      task :release => ['gem:clobber_package', 'gem:package'] do |t|
+        v = ENV['VERSION'] or abort 'Must supply VERSION=x.y.z'
+        abort "Versions don't match #{v} vs #{config.version}" if v != config.version
+        pkg = "pkg/#{config.gem._spec.full_name}"
 
-          rf = RubyForge.new
-          rf.configure rescue nil
-          puts 'Logging in'
-          rf.login
+        rf = RubyForge.new
+        rf.configure rescue nil
+        puts 'Logging in'
+        rf.login
 
-          c = rf.userconfig
-          c['release_notes'] = config.description if config.description
-          c['release_changes'] = config.changes if config.changes
-          c['preformatted'] = true
+        c = rf.userconfig
+        c['release_notes'] = config.description if config.description
+        c['release_changes'] = config.changes if config.changes
+        c['preformatted'] = true
 
-          files = Dir.glob("#{pkg}*.*")
+        files = Dir.glob("#{pkg}*.*")
 
-          puts "Releasing #{config.name} v. #{config.version}"
-          rf.add_release config.rubyforge.name, config.name, config.version, *files
-        end
+        puts "Releasing #{config.name} v. #{config.version}"
+        rf.add_release config.rubyforge.name, config.name, config.version, *files
       end
-    end  # have? :gem
 
-    if have? :rdoc
-      namespace :doc do
-        desc 'Publish RDoc to RubyForge'
-        task :release => %w(doc:clobber_rdoc doc:rdoc) do
-          config = YAML.load(
-            File.read(File.expand_path('~/.rubyforge/user-config.yml'))
-          )
+      desc 'Publish RDoc to RubyForge'
+      task :doc_release => %w(doc:clobber_rdoc doc:rdoc) do
+        config = YAML.load(
+          File.read(File.expand_path('~/.rubyforge/user-config.yml'))
+        )
 
-          host = "#{config['username']}@rubyforge.org"
-          remote_dir = "/var/www/gforge-projects/#{config.rubyforge.name}/"
-          remote_dir << config.rdoc.remote_dir if config.rdoc.remote_dir
-          local_dir = config.rdoc.dir
+        host = "#{config['username']}@rubyforge.org"
+        remote_dir = "/var/www/gforge-projects/#{config.rubyforge.name}/"
+        remote_dir << config.rdoc.remote_dir if config.rdoc.remote_dir
+        local_dir = config.rdoc.dir
 
-          Rake::SshDirPublisher.new(host, remote_dir, local_dir).upload
-        end
-      end  # namespace :doc
-    end  # have? :rdoc
+        Rake::SshDirPublisher.new(host, remote_dir, local_dir).upload
+      end
+    end
 
   end
 
