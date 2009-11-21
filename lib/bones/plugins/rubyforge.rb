@@ -4,6 +4,10 @@ module Bones::Plugins::Rubyforge
   extend self
 
   def initialize_rubyforge
+    require 'rubyforge'
+    require 'rake/contrib/sshpublisher'
+    have?(:rubyforge) { true }
+
     ::Bones.config {
       desc 'Configuration settings for RubyForge publishing.'
       rubyforge {
@@ -24,13 +28,7 @@ module Bones::Plugins::Rubyforge
         __
       }
     }
-  end
-
-  def post_load
-    require 'rubyforge'
-    require 'rake/contrib/sshpublisher'
-    have?(:rubyforge) { true }
-  rescue LoadError => err
+  rescue LoadError
     have?(:rubyforge) { false }
   end
 

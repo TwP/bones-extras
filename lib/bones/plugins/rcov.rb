@@ -4,6 +4,10 @@ module Bones::Plugins::Rcov
   extend self
 
   def initialize_rcov
+    require 'rcov'
+    require 'rcov/rcovtask'
+    have?(:rcov) { true }
+
     ::Bones.config {
       desc 'Configuration settings for the Rcov code coverage tool.'
       rcov {
@@ -29,16 +33,14 @@ module Bones::Plugins::Rcov
         __
       }
     }
+  rescue LoadError
+    have?(:rcov) { false }
   end
 
   def post_load
-    require 'rcov'
-    require 'rcov/rcovtask'
+    return unless have? :rcov
     config = ::Bones.config
     config.exclude << "^#{Regexp.escape(config.rcov.dir)}/"
-    have?(:rcov) { true }
-  rescue LoadError
-    have?(:rcov) { false }
   end
 
   def define_tasks

@@ -4,6 +4,9 @@ module Bones::Plugins::Spec
   extend self
 
   def initialize_spec
+    require 'spec/rake/spectask'
+    have?(:spec) { true }
+
     ::Bones.config {
       desc 'Configuration settings for the RSpec test framework.'
       spec {
@@ -19,14 +22,14 @@ module Bones::Plugins::Spec
         __
       }
     }
+  rescue LoadError
+    have?(:spec) { false }
   end
 
   def post_load
-    require 'spec/rake/spectask'
+    return unless have? :spec
     config = ::Bones.config
     have?(:spec) { !config.spec.files.to_a.empty?  }
-  rescue LoadError
-    have?(:spec) { false }
   end
 
   def define_tasks
