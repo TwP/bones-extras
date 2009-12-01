@@ -32,6 +32,12 @@ module Bones::Plugins::Rubyforge
     have?(:rubyforge) { false }
   end
 
+  def post_load
+    return unless have? :rubyforge
+    config = ::Bones.config
+    config.rubyforge.name ||= config.name
+  end
+
   def define_tasks
     return unless have? :rubyforge
     config = ::Bones.config
