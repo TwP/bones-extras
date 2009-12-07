@@ -13,7 +13,7 @@ Bones {
   authors     'Tim Pease'
   email       'tim.pease@gmail.com'
   url         'http://github.com/TwP/bones-extras'
-  version     '1.2.1'
+  version     '1.2.2'
   ignore_file '.gitignore'
 
   depend_on   'bones'

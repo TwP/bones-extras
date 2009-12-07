@@ -4,12 +4,15 @@ module Bones::Plugins::Rcov
   extend self
 
   def initialize_rcov
+    ::Bones.config {
+      rcov(:desc => 'Configuration settings for the Rcov code coverage tool.') {}
+    }
+
     require 'rcov'
     require 'rcov/rcovtask'
     have?(:rcov) { true }
 
     ::Bones.config {
-      desc 'Configuration settings for the Rcov code coverage tool.'
       rcov {
         dir 'coverage', :desc => <<-__
           Code coverage metrics will be written to this directory.

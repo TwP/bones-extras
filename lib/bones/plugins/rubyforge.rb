@@ -4,12 +4,15 @@ module Bones::Plugins::Rubyforge
   extend self
 
   def initialize_rubyforge
+    ::Bones.config {
+      rubyforge(:desc => 'Configuration settings for RubyForge publishing.') {}
+    }
+
     require 'rubyforge'
     require 'rake/contrib/sshpublisher'
     have?(:rubyforge) { true }
 
     ::Bones.config {
-      desc 'Configuration settings for RubyForge publishing.'
       rubyforge {
         name nil, :desc => <<-__
           The RubyForge project name where your code will be published. If not
