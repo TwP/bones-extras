@@ -4,14 +4,11 @@ module Bones::Plugins::Spec
   extend self
 
   def initialize_spec
-    ::Bones.config {
-      spec(:desc => 'Configuration settings for the RSpec test framework.') {}
-    }
-
     require 'spec/rake/spectask'
     have?(:spec) { true }
 
     ::Bones.config {
+      desc 'Configuration settings for the RSpec test framework.'
       spec {
         files  FileList['spec/**/*_spec.rb'], :desc => <<-__
           The list of spec files to run. This defaults to all the ruby fines
