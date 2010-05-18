@@ -19,7 +19,5 @@ Bones {
   depend_on   'bones'
 
   use_gmail
-  enable_sudo
 }
 
-# EOF
