@@ -67,11 +67,11 @@ module Bones::Plugins::Rubyforge
 
       desc 'Publish RDoc to RubyForge'
       task :doc_release => %w(doc:clobber_rdoc doc:rdoc) do
-        config = YAML.load(
+        rubyforge_config = YAML.load(
           File.read(File.expand_path('~/.rubyforge/user-config.yml'))
         )
 
-        host = "#{config['username']}@rubyforge.org"
+        host = "#{rubyforge_config['username']}@rubyforge.org"
         remote_dir = "/var/www/gforge-projects/#{config.rubyforge.name}/"
         remote_dir << config.rdoc.remote_dir if config.rdoc.remote_dir
         local_dir = config.rdoc.dir
