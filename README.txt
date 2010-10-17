@@ -1,30 +1,22 @@
 bones-extras
     by Tim Pease
-    http://gemcutter.org/gems/bones-extras
+    http://rubygems.org/gems/bones-extras
 
 == DESCRIPTION:
 
-The extras package for Mr Bones provides some handy Rake tasks for running
-Rcov code coverage on your tests, running Rspec tests, running the Zentest
-autotest package, and uploading gems and generated rdoc to RubyForge.
+This package has been deprecated. All it will do now is install the following
+Mr Bones plugins:
 
-== REQUIREMENTS:
-
-The extras package for Mr Bones provides some handy Rake tasks for running
-Rcov code coverage on your tests, running Rspec tests, running the Zentest
-autotest package, and uploading gems and generated rdoc to RubyForge. In order
-to use these Rake tasks, the corresponding gems will need to be installed on
-your system: rcov, rspec, zentest, and rubyforge.
-
-== INSTALL:
-
-  sudo gem install bones-extras
+  bones-rcov
+  bones-rubyforge
+  bones-rspec
+  bones-zentest
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2009
+Copyright (c) 2009-2010
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
